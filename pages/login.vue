@@ -22,7 +22,7 @@
                             <label class="login-label" for="password"><b>Пароль</b></label>
                             <input 
                                 id="password" 
-                                type="text"
+                                type="password"
                                 name="password"
                                 placeholder="Пароль"
                             >
