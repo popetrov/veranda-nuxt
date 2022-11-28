@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <main-navbar />
+    <div class="grey lighten-3">
+        <login-navbar />
         <div class="container">
-            <nuxt />
+            <nuxt/>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
 </style>
