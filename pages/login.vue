@@ -11,34 +11,40 @@
                         <h6 class="card__title grey-text">Для продолжения работы введите свои учетные данные:</h6>
                         <form @submit.prevent>
                             <div>
-                                <label class="login-label" for="login-name"><b>Имя пользователя</b></label>
+                                <label 
+                                    class="login-label" 
+                                    for="login-name"
+                                >
+                                    <b>Имя пользователя</b>
+                                </label>
                                 <input 
                                     id="login-name"
                                     v-model="loginForm.login"
                                     type="text"
                                     name="login-name"
                                     placeholder="Логин"
+                                    @change="checkValidateLogin"
                                 >
                             </div>
                             <div>
                                 <label
-                                    v-if="validate==='пароль'" 
+                                    v-if="validatePassword==='пароль'" 
                                     class="login-label" 
                                     for="password"
                                 >
                                     <b>Пароль</b>
                                 </label>
                                 <label
-                                    v-else-if="validate==='Пароль должен содержать не менее 6 символов'"
+                                    v-else-if="validatePassword==='Пароль должен содержать не менее 6 символов'"
                                     class="login-label_no-validate"  
                                     for="password">
                                         <b>Пароль должен содержать не менее 6 символов</b>
                                 </label>
                                 <label
-                                    v-else-if="validate==='Это надежный пароль'"
+                                    v-else-if="validatePassword==='Это надежный пароль'"
                                     class="login-label_validate"  
                                     for="password">
-                                        <b>Это надежный пароль</b>
+                                        <b><i class="material-icons">check</i></b>
                                 </label>
                                 <input
                                     id="password"
@@ -46,7 +52,7 @@
                                     type="password"
                                     name="password"
                                     placeholder="Пароль"
-                                    @change="checkValidate"
+                                    @change="checkValidatePassword"
                                 >
                             </div>
                         </form>
@@ -69,18 +75,24 @@
                     login: '',
                     password: ''
                 },
-                validate: 'пароль'
+                validatePassword: 'пароль'
             }
         },
         methods: {
-            checkValidate(data) {
+            checkValidatePassword(data) {
                 if(data.target._value.length < 6){
                     this.loginForm.password = ""
-                    this.validate = 'Пароль должен содержать не менее 6 символов'
+                    this.validatePassword = 'Пароль должен содержать не менее 6 символов'
                     return
                 }
-                this.validate = 'Это надежный пароль'
+                this.validatePassword = 'Это надежный пароль'
             },
+            checkValidateLogin(data) {
+                if(data.target._value){
+                    return console.log()
+                }
+                console.log(data.target._value.length)
+            }
         },
        
     }
