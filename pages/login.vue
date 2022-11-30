@@ -21,17 +21,32 @@
                                 >
                             </div>
                             <div>
-                                <label class="login-label" for="password"><b>Пароль</b></label>
-                                <label class="login-label_validate" for="password"><b>{{validate}}</b></label>
+                                <label
+                                    v-if="validate==='пароль'" 
+                                    class="login-label" 
+                                    for="password"
+                                >
+                                    <b>Пароль</b>
+                                </label>
+                                <label
+                                    v-else-if="validate==='Пароль должен содержать не менее 6 символов'"
+                                    class="login-label_no-validate"  
+                                    for="password">
+                                        <b>Пароль должен содержать не менее 6 символов</b>
+                                </label>
+                                <label
+                                    v-else-if="validate==='Это надежный пароль'"
+                                    class="login-label_validate"  
+                                    for="password">
+                                        <b>Это надежный пароль</b>
+                                </label>
                                 <input
                                     id="password"
                                     v-model="loginForm.password"
                                     type="password"
                                     name="password"
                                     placeholder="Пароль"
-                                    @focus="focused=true"
-                                    @blur="focused=false"
-                                    @change="onFocus"
+                                    @change="checkValidate"
                                 >
                             </div>
                         </form>
@@ -54,23 +69,17 @@
                     login: '',
                     password: ''
                 },
-                focused: {
-                    type: Boolean,
-                    default: false
-                },
-                validate: ""
+                validate: 'пароль'
             }
         },
         methods: {
-            onFocus(focused) {
-                if(focused.target._value.length<6){
+            checkValidate(data) {
+                if(data.target._value.length < 6){
                     this.loginForm.password = ""
                     this.validate = 'Пароль должен содержать не менее 6 символов'
-
+                    return
                 }
-                if(focused.target._value.length>=6){
-                    this.validate = ''
-                }
+                this.validate = 'Это надежный пароль'
             },
         },
        
@@ -120,8 +129,12 @@
     .login-label_none{
         display: none;
     }
-    .login-label_validate {
+    .login-label_no-validate {
         display: block;
         color: red
+    }
+    .login-label_validate {
+        display: block;
+        color: green
     }
 </style>
