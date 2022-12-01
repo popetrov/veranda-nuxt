@@ -11,15 +11,30 @@
                         <h6 class="card__title grey-text">Для продолжения работы введите свои учетные данные:</h6>
                         <form @submit.prevent>
                             <div>
-                                <label 
+                                <label
+                                    v-if="validateLogin===''" 
                                     class="login-label" 
                                     for="login-name"
                                 >
                                     <b>Имя пользователя</b>
                                 </label>
+                                <label
+                                    v-else-if="validateLogin==='Введите Логин'" 
+                                    class="login-label_no-validate" 
+                                    for="login-name"
+                                >
+                                    <b>Введите имя пользователя</b>
+                                </label>
+                                <label
+                                    v-else-if="validateLogin==='Принято'" 
+                                    class="login-label_validate" 
+                                    for="login-name"
+                                >
+                                    <b>Имя пользователя<i class="material-icons">check</i></b>
+                                </label>
                                 <input 
                                     id="login-name"
-                                    v-model="loginForm.login"
+                                    v-model.trim="loginForm.login"
                                     type="text"
                                     name="login-name"
                                     placeholder="Логин"
@@ -28,7 +43,7 @@
                             </div>
                             <div>
                                 <label
-                                    v-if="validatePassword==='пароль'" 
+                                    v-if="validatePassword===''" 
                                     class="login-label" 
                                     for="password"
                                 >
@@ -44,7 +59,7 @@
                                     v-else-if="validatePassword==='Это надежный пароль'"
                                     class="login-label_validate"  
                                     for="password">
-                                        <b><i class="material-icons">check</i></b>
+                                        <b>Пароль<i class="material-icons">check</i></b>
                                 </label>
                                 <input
                                     id="password"
@@ -58,7 +73,13 @@
                         </form>
                     </div>
                     <div class="login-button">
-                        <a class="waves-effect waves-light btn">Войти</a>
+                        <NuxtLink
+                            to="/userPage" 
+                            class="waves-effect waves-light btn"
+                            @click="getLogin"
+                        >
+                            Войти
+                        </NuxtLink>
                     </div>
                 </div>
             </div>
@@ -75,7 +96,8 @@
                     login: '',
                     password: ''
                 },
-                validatePassword: 'пароль'
+                validatePassword: '',
+                validateLogin: ''
             }
         },
         methods: {
@@ -88,10 +110,14 @@
                 this.validatePassword = 'Это надежный пароль'
             },
             checkValidateLogin(data) {
-                if(data.target._value){
-                    return console.log()
+                if(data.target._value.length===0){
+                    this.validateLogin = 'Введите Логин'
+                    return 
                 }
-                console.log(data.target._value.length)
+                this.validateLogin = 'Принято'
+            },
+            getLogin() {
+                
             }
         },
        
@@ -146,7 +172,6 @@
         color: red
     }
     .login-label_validate {
-        display: block;
         color: green
     }
 </style>
